@@ -19,14 +19,14 @@ export function SearchView({ onBack, categories }: SearchViewProps) {
   const { t } = useI18n();
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<Product[]>([]);
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState("");
   const [loading, setLoading] = useState(false);
   const [hasSearched, setHasSearched] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const debounceRef = useRef<ReturnType<typeof setTimeout>>(undefined);
 
   const search = useCallback(
-    async (q: string, category: string | null) => {
+    async (q: string, category: string) => {
       if (q.length < 2) {
         setResults([]);
         setHasSearched(false);
@@ -100,6 +100,7 @@ export function SearchView({ onBack, categories }: SearchViewProps) {
           categories={categories}
           selected={selectedCategory}
           onSelect={setSelectedCategory}
+          showAll
         />
       )}
 

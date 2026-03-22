@@ -1,20 +1,22 @@
 {
   "appName": "PriceHNTR",
   "searchPlaceholder": "Otsi toodet...",
-  "todaysDeals": "T\u00e4nased pakkumised",
-  "productsOnSale": "{count} toodet allahindlusega",
+  "bestPrices": "Parimad hinnad",
+  "productCount": "{count} toodet",
   "resultsFor": "Tulemused p\u00e4ringule \"{query}\"",
   "productsFound": "{count} toodet leitud",
   "cheapest": "Soodsaim",
-  "onSaleOnly": "Soodustus",
   "noResults": "Tooteid ei leitud",
   "noResultsHint": "Proovi teist otsingus\u00f5na",
   "errorUnavailable": "Hinnad on ajutiselt k\u00e4ttesaamatud. Proovi hiljem uuesti.",
   "errorRateLimit": "Liiga palju p\u00e4ringuid. Palun oota hetk.",
   "errorNetwork": "\u00dchendus puudub. Kontrolli internetti.",
-  "deals": "Pakkumised",
-  "search": "Otsing",
   "all": "K\u00f5ik",
+  "deals": "Hinnad",
+  "search": "Otsing",
   "stores": "{count} poodi",
-  "unavailable": "\u2014"
+  "unavailable": "\u2014",
+  "sizeSmall": "V\u00e4ike",
+  "sizeRegular": "Tavaline",
+  "sizeMultipack": "Multipakk"
 }

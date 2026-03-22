@@ -1,16 +1,13 @@
 import type { Product } from "../lib/alkoholiks-sdk";
-import { getLowestPrice, getDiscountPercent, formatPrice } from "../lib/utils";
+import { formatPrice, formatVolume } from "../lib/utils";
 import { StoreBadge } from "./StoreBadge";
-import { DiscountBadge } from "./DiscountBadge";
 
 interface DealCardProps {
   product: Product;
 }
 
 export function DealCard({ product }: DealCardProps) {
-  const lowestPrice = getLowestPrice(product);
-  const discountPercent = getDiscountPercent(product);
-  const hasDiscount = discountPercent > 0;
+  const volume = formatVolume(product);
 
   return (
     <div className="bg-surface-container-lowest p-3 rounded-xl border border-outline-variant/20 flex gap-4 items-center active:scale-[0.97] transition-transform">
@@ -31,24 +28,19 @@ export function DealCard({ product }: DealCardProps) {
         )}
       </div>
       <div className="flex-grow min-w-0">
-        <div className="flex justify-between items-start">
-          <h3 className="text-sm font-semibold text-on-surface truncate pr-2">
-            {product.name}
-          </h3>
-          {hasDiscount && <DiscountBadge percent={discountPercent} />}
-        </div>
-        <div className="mt-1">
+        <h3 className="text-sm font-semibold text-on-surface truncate">
+          {product.name}
+        </h3>
+        <div className="flex items-center gap-2 mt-1">
           <StoreBadge storeId={product.store} />
-        </div>
-        <div className="flex items-baseline gap-2 mt-2">
-          <span className="text-base font-bold text-primary">
-            {formatPrice(lowestPrice)}
-          </span>
-          {hasDiscount && (
-            <span className="text-xs text-on-surface-variant line-through decoration-error/30">
-              {formatPrice(product.regularPrice)}
-            </span>
+          {volume && (
+            <span className="text-[11px] text-on-surface-variant">{volume}</span>
           )}
+        </div>
+        <div className="mt-2">
+          <span className="text-base font-bold text-primary">
+            {formatPrice(product.regularPrice)}
+          </span>
         </div>
       </div>
     </div>

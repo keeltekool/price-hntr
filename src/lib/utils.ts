@@ -21,3 +21,34 @@ export function formatUnitPrice(price: number | null): string | null {
   if (price === null) return null;
   return price.toFixed(2) + " \u20ac/L";
 }
+
+// --- Size bucketing ---
+
+export type SizeBucket = "small" | "regular" | "multipack";
+
+const MULTIPACK_PATTERN = /\d+\s*[x*]\s*\d+/i;
+
+export function getSizeBucket(product: Product): SizeBucket {
+  // Check multipack first — name pattern takes priority
+  if (MULTIPACK_PATTERN.test(product.name) || MULTIPACK_PATTERN.test(product.volume)) {
+    return "multipack";
+  }
+  if (product.volumeML !== null && product.volumeML >= 1000) {
+    return "multipack";
+  }
+  if (product.volumeML !== null && product.volumeML >= 400) {
+    return "regular";
+  }
+  // Default: small (covers 200-399ml, or unknown volume)
+  return "small";
+}
+
+export function formatVolume(product: Product): string {
+  if (product.volume) return product.volume;
+  if (product.volumeML !== null) {
+    return product.volumeML >= 1000
+      ? (product.volumeML / 1000).toFixed(1) + "L"
+      : product.volumeML + "ml";
+  }
+  return "";
+}

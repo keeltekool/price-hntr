@@ -28,7 +28,7 @@ export function BottomNav({ activeTab, onTabChange }: BottomNavProps) {
               : undefined
           }
         >
-          local_fire_department
+          sell
         </span>
         <span className="text-[11px] font-medium mt-0.5">{t("deals")}</span>
       </button>
