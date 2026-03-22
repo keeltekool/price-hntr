@@ -11,7 +11,7 @@ import { DealCard } from "../components/DealCard";
 import { SkeletonCard } from "../components/SkeletonCard";
 import { ErrorBanner } from "../components/ErrorBanner";
 
-const MAX_RESULTS = 50;
+const MAX_RESULTS = 75;
 const DEFAULT_CATEGORY = "\u00f5lu"; // Beer
 
 interface DealsViewProps {
