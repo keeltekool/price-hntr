@@ -1,5 +1,5 @@
 import type { Product } from "../lib/alkoholiks-sdk";
-import { formatPrice, formatVolume } from "../lib/utils";
+import { getLowestPrice, formatPrice, formatVolume } from "../lib/utils";
 import { StoreBadge } from "./StoreBadge";
 
 interface DealCardProps {
@@ -7,6 +7,7 @@ interface DealCardProps {
 }
 
 export function DealCard({ product }: DealCardProps) {
+  const lowestPrice = getLowestPrice(product);
   const volume = formatVolume(product);
 
   return (
@@ -39,7 +40,7 @@ export function DealCard({ product }: DealCardProps) {
         </div>
         <div className="mt-2">
           <span className="text-base font-bold text-primary">
-            {formatPrice(product.regularPrice)}
+            {formatPrice(lowestPrice)}
           </span>
         </div>
       </div>

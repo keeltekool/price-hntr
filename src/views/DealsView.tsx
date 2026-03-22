@@ -1,8 +1,9 @@
 import { useState, useEffect, useCallback } from "react";
 import type { Product, Category } from "../lib/alkoholiks-sdk";
 import { api } from "../lib/api";
-import { getSizeBucket, type SizeBucket } from "../lib/utils";
+import { getSizeBucket, getLowestPrice, type SizeBucket } from "../lib/utils";
 import { useI18n } from "../lib/i18n";
+import { STORE_ORDER } from "../constants/stores";
 import { SearchBar } from "../components/SearchBar";
 import { CategoryChips } from "../components/CategoryChips";
 import { SizeChips } from "../components/SizeChips";
@@ -31,8 +32,14 @@ export function DealsView({ onSearchFocus, categories }: DealsViewProps) {
       setLoading(true);
       setError(null);
       try {
-        const res = await api.getProducts({ category, limit: 200 });
-        setAllProducts(res.data);
+        // Fetch from all 5 stores in parallel to get full coverage
+        const results = await Promise.all(
+          STORE_ORDER.map((store) =>
+            api.getProducts({ category, store, limit: 200 })
+          )
+        );
+        const merged = results.flatMap((r) => r.data);
+        setAllProducts(merged);
       } catch (err) {
         if (err instanceof Error) {
           setError(err.message);
@@ -54,10 +61,10 @@ export function DealsView({ onSearchFocus, categories }: DealsViewProps) {
     setSelectedCategory(categoryId);
   };
 
-  // Client-side: exclude alcohol-free, bucket by size, sort by price, cap at 50
+  // Client-side: exclude alcohol-free, bucket by size, sort by lowest price, cap at 50
   const filtered = allProducts
     .filter((p) => !p.alcoholFree && getSizeBucket(p) === selectedSize)
-    .sort((a, b) => a.regularPrice - b.regularPrice)
+    .sort((a, b) => getLowestPrice(a) - getLowestPrice(b))
     .slice(0, MAX_RESULTS);
 
   return (
