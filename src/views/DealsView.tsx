@@ -1,10 +1,11 @@
 import { useState, useEffect, useCallback } from "react";
-import type { Product, Category } from "../lib/alkoholiks-sdk";
+import type { Product, Category, StoreId } from "../lib/alkoholiks-sdk";
 import { api } from "../lib/api";
 import { getSizeBucket, getLowestPrice, type SizeBucket } from "../lib/utils";
 import { useI18n } from "../lib/i18n";
 import { STORE_ORDER } from "../constants/stores";
 import { SearchBar } from "../components/SearchBar";
+import { StoreChips } from "../components/StoreChips";
 import { CategoryChips } from "../components/CategoryChips";
 import { SizeChips } from "../components/SizeChips";
 import { DealCard } from "../components/DealCard";
@@ -22,6 +23,7 @@ interface DealsViewProps {
 export function DealsView({ onSearchFocus, categories }: DealsViewProps) {
   const { t } = useI18n();
   const [allProducts, setAllProducts] = useState<Product[]>([]);
+  const [selectedStore, setSelectedStore] = useState<StoreId | null>(null);
   const [selectedCategory, setSelectedCategory] = useState(DEFAULT_CATEGORY);
   const [selectedSize, setSelectedSize] = useState<SizeBucket>("regular");
   const [loading, setLoading] = useState(true);
@@ -61,9 +63,14 @@ export function DealsView({ onSearchFocus, categories }: DealsViewProps) {
     setSelectedCategory(categoryId);
   };
 
-  // Client-side: exclude alcohol-free, bucket by size, sort by lowest price, cap at 50
+  // Client-side: filter store, exclude alcohol-free, bucket by size, sort, cap
   const filtered = allProducts
-    .filter((p) => !p.alcoholFree && getSizeBucket(p) === selectedSize)
+    .filter((p) => {
+      if (selectedStore && p.store !== selectedStore) return false;
+      if (p.alcoholFree) return false;
+      if (getSizeBucket(p) !== selectedSize) return false;
+      return true;
+    })
     .sort((a, b) => getLowestPrice(a) - getLowestPrice(b))
     .slice(0, MAX_RESULTS);
 
@@ -83,6 +90,8 @@ export function DealsView({ onSearchFocus, categories }: DealsViewProps) {
           {t("productCount", { count: filtered.length })}
         </p>
       </div>
+
+      <StoreChips selected={selectedStore} onSelect={setSelectedStore} />
 
       <CategoryChips
         categories={categories}
