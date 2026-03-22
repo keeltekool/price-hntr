@@ -1,0 +1,20 @@
+{
+  "appName": "PriceHNTR",
+  "searchPlaceholder": "Search for a product...",
+  "todaysDeals": "Today's Deals",
+  "productsOnSale": "{count} products on sale",
+  "resultsFor": "Results for \"{query}\"",
+  "productsFound": "{count} products found",
+  "cheapest": "Cheapest",
+  "onSaleOnly": "On Sale",
+  "noResults": "No products found",
+  "noResultsHint": "Try a different search term",
+  "errorUnavailable": "Prices are temporarily unavailable. Try again soon.",
+  "errorRateLimit": "Too many requests. Please wait a moment.",
+  "errorNetwork": "No connection. Check your internet.",
+  "deals": "Deals",
+  "search": "Search",
+  "all": "All",
+  "stores": "{count} stores",
+  "unavailable": "\u2014"
+}
