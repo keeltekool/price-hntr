@@ -54,9 +54,9 @@ export function DealsView({ onSearchFocus, categories }: DealsViewProps) {
     setSelectedCategory(categoryId);
   };
 
-  // Client-side: bucket by size, sort by price, cap at 50
+  // Client-side: exclude alcohol-free, bucket by size, sort by price, cap at 50
   const filtered = allProducts
-    .filter((p) => getSizeBucket(p) === selectedSize)
+    .filter((p) => !p.alcoholFree && getSizeBucket(p) === selectedSize)
     .sort((a, b) => a.regularPrice - b.regularPrice)
     .slice(0, MAX_RESULTS);
 
