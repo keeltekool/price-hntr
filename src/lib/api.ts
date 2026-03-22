@@ -7,13 +7,9 @@ if (!clientId || !clientSecret) {
   console.error("Missing VITE_ALK_CLIENT_ID or VITE_ALK_CLIENT_SECRET in .env.local");
 }
 
-// In dev, use Vite proxy (/api) to avoid CORS. In prod, hit the API directly.
-const baseUrl = import.meta.env.DEV
-  ? "/api"
-  : "https://alkoholiks-api.vercel.app/api";
-
+// Use /api for both dev (Vite proxy) and prod (Vercel rewrites)
 export const api = new AlkoholiksAPI({
   clientId: clientId || "",
   clientSecret: clientSecret || "",
-  baseUrl,
+  baseUrl: "/api",
 });
